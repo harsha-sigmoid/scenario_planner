@@ -1,0 +1,319 @@
+/* ============ MAIN CONTENT ONLY - NO SIDEBAR CHANGES ============ */
+.main {
+    background-color: #f5f1e9 !important;
+    color: black;
+}
+
+/* Title text (h1, h2...) */
+h1, h2, h3, h4, h5, h6 {
+    color: #042b0b !important;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.unified-filter-title {
+    color: #154c29 !important;
+    font-size: 20px !important;
+    margin-bottom: 5px !important;
+    height: 29px !important;
+    min-height: 29px !important;
+    line-height: 1.2 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;     
+}
+
+/* Buttons */
+.stButton > button {
+    background-color: #154c29 !important;
+    color: white !important;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    transition: all 0.2s ease-in-out;
+}
+.stButton > button:hover {
+    background-color: #0f3a20 !important;
+    transform: scale(1.02);
+}
+
+/* Input fields (date, select, text, number) */
+.stDateInput > div > div,
+.stSelectbox > div > div,
+.stTextInput > div > div > input,
+.stNumberInput > div > div > input {
+    background-color: #ccd5cdff !important;
+    color: black !important;
+    border: 1px solid #ddd !important;
+    border-radius: 4px !important;
+}
+
+/* Dropdown menus */
+div[data-baseweb="select"] > div {
+    background-color: #ccd5cdff !important;
+    color: black !important;
+    border: 1px solid #ddd !important;
+    border-radius: 4px !important;
+}
+div[data-baseweb="select"] input {
+    background-color: #ccd5cdff !important;
+    color: black !important;
+    border: none !important;
+}
+div[data-baseweb="select"] svg {
+    color: black !important;
+}
+
+/* Section divider */
+hr {
+    border: none;
+    border-top: 2px solid #154c29;
+    margin: 20px 0;
+}
+
+/* ============ LARGER FONT FOR ALL TABLES ============ */
+
+/* Regular DataFrames */
+.main .stDataFrame {
+    font-size: 16px !important;
+}
+
+.main .stDataFrame thead th {
+    font-size: 17px !important;
+    padding: 16px !important;
+}
+
+.main .stDataFrame tbody td {
+    font-size: 16px !important;
+    padding: 14px !important;
+}
+
+/* Data Editor - Scenario Simulation */
+.main .stDataEditor {
+    font-size: 16px !important;
+}
+
+.main .stDataEditor div[data-testid="stDataFrameContainer"] {
+    font-size: 16px !important;
+}
+
+.main .stDataEditor div[data-testid="stDataFrameContainer"] table {
+    font-size: 16px !important;
+}
+
+.main .stDataEditor div[data-testid="stDataFrameContainer"] th {
+    font-size: 17px !important;
+    padding: 16px 12px !important;
+    background-color: #154c29 !important;
+    color: white !important;
+    font-weight: bold !important;
+}
+
+.main .stDataEditor div[data-testid="stDataFrameContainer"] td {
+    font-size: 16px !important;
+    padding: 14px 12px !important;
+}
+
+/* Input fields within data editor */
+.main .stDataEditor input {
+    font-size: 16px !important;
+    padding: 10px 8px !important;
+    height: auto !important;
+}
+
+/* Select boxes within data editor */
+.main .stDataEditor select {
+    font-size: 16px !important;
+    padding: 8px !important;
+}
+
+/* ============ DATAFRAME STYLING - HIGHLY POLISHED ============ */
+.main .stDataFrame {
+    background-color: #f5f1e9 !important;
+    border: 2px solid #154c29 !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+.main .stDataFrame thead th {
+    background-color: #154c29 !important;
+    color: white !important;
+    font-weight: bold !important;
+    text-align: center !important;
+    border: none !important;
+    padding: 16px !important;
+    font-size: 17px !important;
+    letter-spacing: 0.5px !important;
+}
+
+.main .stDataFrame tbody td {
+    background-color: #f5f1e9 !important;
+    color: #042b0bff !important;
+    border: 1px solid #e0d9ce !important;
+    padding: 14px !important;
+    text-align: center !important;
+    font-size: 16px !important;
+}
+
+.main .stDataFrame tbody tr:nth-child(even) td {
+    background-color: #ede8e2 !important;
+}
+
+.main .stDataFrame tbody tr:hover td {
+    background-color: #e8f5e9 !important;
+    transition: background-color 0.2s ease !important;
+}
+
+/* ============ ALERT/NOTIFICATION STYLING ============ */
+.main div[data-testid="stAlert"] > div {
+    border-radius: 8px !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
+    border-left: 5px solid #154c29 !important;
+}
+
+/* Success (Green) */
+.main div[data-testid="stAlert"] > div > div:nth-child(1) {
+    background-color: #d4edda !important;
+    color: #155724 !important;
+    border: 1px solid #c3e6cb !important;
+}
+
+.main div[data-testid="stAlert"] > div > div:nth-child(1) svg {
+    color: #155724 !important;
+}
+
+/* Info (Blue-Green) */
+.main div[data-testid="stAlert"] > div[role="alert"] {
+    background-color: #d1ecf1 !important;
+    color: #0c5460 !important;
+    border: 1px solid #bee5eb !important;
+}
+
+.main div[data-testid="stAlert"] > div[role="alert"] svg {
+    color: #0c5460 !important;
+}
+
+/* Alert text */
+.main div[data-testid="stAlert"] p {
+    margin: 0 !important;
+    font-weight: 500 !important;
+    font-size: 15px !important;
+}
+
+/* ============ CENTERED CONFIG CAPTION ============ */
+.config-caption {
+    text-align: center !important;
+    font-size: 18px !important;
+    font-weight: bold !important;
+    color: #154c29 !important;
+    padding: 15px !important;
+    background-color: #e8f5e9 !important;
+    border-radius: 8px !important;
+    border: 2px solid #154c29 !important;
+    margin: 20px 0 !important;
+}
+
+/* ============ METRIC STYLING - POLISHED ============ */
+.metric-container {
+    background-color: #e8f5e9 !important;
+    border: 2px solid #154c29 !important;
+    border-radius: 8px !important;
+    padding: 20px !important;
+    text-align: center !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+    transition: all 0.3s ease !important;
+}
+
+.metric-container:hover {
+    box-shadow: 0 8px 12px rgba(21, 76, 41, 0.2) !important;
+    transform: translateY(-2px) !important;
+}
+
+.metric-label {
+    color: #154c29 !important;
+    font-size: 14px !important;
+    font-weight: bold !important;
+    margin-bottom: 8px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+}
+
+.metric-value {
+    color: #042b0b !important;
+    font-size: 28px !important;
+    font-weight: bold !important;
+}
+
+.metric-delta {
+    color: #28a745 !important;
+    font-size: 14px !important;
+    margin-top: 8px !important;
+    font-weight: 600 !important;
+}
+
+/* ============ DATA EDITOR STYLING ============ */
+.main div[data-testid="stDataFrameContainer"] input {
+    background-color: #cce5cc !important;
+    border: 2px solid #154c29 !important;
+    color: #042b0b !important;
+    font-weight: bold !important;
+    font-size: 16px !important;
+}
+
+/* ============ TABS STYLING ============ */
+.main .stTabs {
+    margin-top: 10px !important;
+    margin-bottom: 20px !important;
+}
+
+.main .stTabs [data-baseweb="tab-list"] {
+    gap: 0 !important;
+    background-color: #f7efe6 !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    border-bottom: 2px solid #d1deca !important;
+}
+
+.main .stTabs [data-baseweb="tab-list"] button {
+    color: black !important;
+    font-weight: bold !important;
+    font-size: 18px !important;
+    text-align: center !important;
+    margin: 0 !important;
+    padding: 15px 25px !important;
+    border: none !important;
+    border-radius: 0 !important;
+    background-color: #f7efe6 !important;
+    transition: all 0.3s ease !important;
+}
+
+.main .stTabs [data-baseweb="tab-list"] button:hover {
+    background-color: #e0dacb !important;
+}
+
+.main .stTabs [data-baseweb="tab-list"] button[aria-selected="true"] {
+    color: white !important;
+    background-color: #042b0b !important;
+    font-weight: bold !important;
+    border-bottom: 3px solid #042b0b !important;
+}
+
+.main .stTabs [data-baseweb="tab-content"] {
+    padding-top: 20px !important;
+}
+
+/* ============ EXPANDER STYLING ============ */
+.main .streamlit-expanderHeader {
+    background-color: #e8f5e9 !important;
+    color: #154c29 !important;
+    font-weight: bold !important;
+    border: 1px solid #c3e6cb !important;
+    border-radius: 4px !important;
+    padding: 12px !important;
+}
+
+.main .streamlit-expanderHeader:hover {
+    background-color: #d4edda !important;
+}
