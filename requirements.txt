@@ -1,0 +1,8 @@
+streamlit
+Pillow
+streamlit-aggrid
+streamlit-option-menu
+plotly==5.21.0
+matplotlib
+pyarrow
+openpyxl
