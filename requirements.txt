@@ -1,7 +1,9 @@
-streamlit
+streamlit == 1.49.1
+streamlit-aggrid == 1.2.0
+streamlit-option-menu == 0.3.13
+pandas == 2.3.2
+openpyxl == 3.1.5
 Pillow
-streamlit-aggrid
-streamlit-option-menu
 plotly==5.21.0
 matplotlib
 pyarrow
