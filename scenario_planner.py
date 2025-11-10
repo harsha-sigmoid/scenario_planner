@@ -753,7 +753,15 @@ def scenario_planner_app():
             </div>
             """, unsafe_allow_html=True)
         st.markdown("---")
-        
+        st.markdown("#### 📝 Interactive Budget Editor")
+        st.markdown("""
+            <div style="background-color: #d1ecf1; border: 2px solid #0c5460; border-radius: 8px; padding: 15px; border-left: 5px solid #0c5460; margin-bottom: 20px;">
+                <div style="color: #0c5460; font-size: 15px; font-weight: 600;">
+                    You may directly edit the Desired Budget and CPM columns by double-clicking on the cell! Changes are saved automatically in memory until logout.
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+
         # Add custom CSS to remove padding after the table
         st.markdown("""
         <style>
@@ -774,17 +782,6 @@ def scenario_planner_app():
         }
         </style>
         """, unsafe_allow_html=True)
-
-        st.markdown("#### 📝 Interactive Budget Editor")
-        
-        st.markdown("""
-            <div style="background-color: #d1ecf1; border: 2px solid #0c5460; border-radius: 8px; padding: 15px; border-left: 5px solid #0c5460; margin-bottom: 20px;">
-                <div style="color: #0c5460; font-size: 15px; font-weight: 600;">
-                    You may directly edit the Desired Budget and CPM columns by double-clicking on the cell! Changes are saved automatically in memory until logout.
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
-
         # --- Editable AgGrid table ---
         edited_df = display_aggrid_table_edit(
             st.session_state["edited_simulation"].reset_index(drop=True))
@@ -871,7 +868,27 @@ def scenario_planner_app():
             })
         
         comparison_df = pd.DataFrame(comparison_data)
-        st.dataframe(comparison_df.set_index("Scenario"), use_container_width=True)
+        # Add custom CSS to remove padding after the table
+        st.markdown("""
+        <style>
+        div[data-testid="stVerticalBlock"] > div:has(> .ag-theme-streamlit-custom) {
+            padding-bottom: 0px !important;
+            margin-bottom: 0px !important;
+        }
+        
+        /* Remove padding from the AgGrid container specifically */
+        .ag-theme-streamlit-custom {
+            margin-bottom: 0px !important;
+        }
+        
+        /* Remove any extra space after the grid */
+        div[data-testid="stVerticalBlock"]:has(> .ag-theme-streamlit-custom) {
+            padding-bottom: 0px !important;
+            margin-bottom: 0px !important;
+        }
+        </style>
+        """, unsafe_allow_html=True)
+        display_aggrid_table(comparison_df)
         
         st.markdown("---")
         st.markdown("#### 📊 Detailed Budget Comparison by Channel")
@@ -895,51 +912,51 @@ def scenario_planner_app():
                 detailed_comparison[f"{scenario_name} Budget"] - detailed_comparison["Original Budget"]
             )
         
-        st.dataframe(detailed_comparison.set_index("Channel"), use_container_width=True)
+        display_aggrid_table(detailed_comparison)
         
         st.markdown("---")
-        st.markdown("#### 🎯 Key Insights")
+        # st.markdown("#### 🎯 Key Insights")
         
-        # Generate insights
-        if selected_scenarios:
-            latest_scenario = selected_scenarios[-1]
-            latest_df = st.session_state.saved_scenarios[latest_scenario]
+        # # Generate insights
+        # if selected_scenarios:
+        #     latest_scenario = selected_scenarios[-1]
+        #     latest_df = st.session_state.saved_scenarios[latest_scenario]
             
-            # Calculate changes
-            total_change = latest_df["Desired Budget"].sum() - original_total
-            avg_change = (latest_df["Desired Budget"] - original_df["Desired Budget"]).mean()
-            max_increase_channel = detailed_comparison.loc[
-                detailed_comparison[f"{latest_scenario} vs Original"].idxmax(), "Channel"
-            ]
-            max_decrease_channel = detailed_comparison.loc[
-                detailed_comparison[f"{latest_scenario} vs Original"].idxmin(), "Channel"
-            ]
+        #     # Calculate changes
+        #     total_change = latest_df["Desired Budget"].sum() - original_total
+        #     avg_change = (latest_df["Desired Budget"] - original_df["Desired Budget"]).mean()
+        #     max_increase_channel = detailed_comparison.loc[
+        #         detailed_comparison[f"{latest_scenario} vs Original"].idxmax(), "Channel"
+        #     ]
+        #     max_decrease_channel = detailed_comparison.loc[
+        #         detailed_comparison[f"{latest_scenario} vs Original"].idxmin(), "Channel"
+        #     ]
             
-            col1, col2 = st.columns(2)
+        #     col1, col2 = st.columns(2)
             
-            with col1:
-                st.markdown("**Budget Allocation Changes:**")
-                st.write(f"""
-                - **Total Budget Change:** ${total_change:+,}
-                - **Average Channel Change:** ${avg_change:+,.0f}
-                - **Max Increase:** {max_increase_channel}
-                - **Max Decrease:** {max_decrease_channel}
-                """)
+        #     with col1:
+        #         st.markdown("**Budget Allocation Changes:**")
+        #         st.write(f"""
+        #         - **Total Budget Change:** ${total_change:+,}
+        #         - **Average Channel Change:** ${avg_change:+,.0f}
+        #         - **Max Increase:** {max_increase_channel}
+        #         - **Max Decrease:** {max_decrease_channel}
+        #         """)
             
-            with col2:
-                st.markdown("**Recommendations:**")
-                if total_change > 0:
-                    st.write("""
-                    ✅ Overall budget increase detected
-                    📈 Consider reallocating from lower-performing channels
-                    🔍 Review CPM efficiency for increased budgets
-                    """)
-                else:
-                    st.write("""
-                    ✅ Overall budget reduction achieved
-                    📊 Focus on maintaining ROI with reduced spend
-                    🎯 Optimize channel mix for efficiency
-                    """)
+        #     with col2:
+        #         st.markdown("**Recommendations:**")
+        #         if total_change > 0:
+        #             st.write("""
+        #             ✅ Overall budget increase detected
+        #             📈 Consider reallocating from lower-performing channels
+        #             🔍 Review CPM efficiency for increased budgets
+        #             """)
+        #         else:
+        #             st.write("""
+        #             ✅ Overall budget reduction achieved
+        #             📊 Focus on maintaining ROI with reduced spend
+        #             🎯 Optimize channel mix for efficiency
+        #             """)
 
 def display_aggrid_table_edit(dataframe, fit_columns=True):
     """
@@ -1008,6 +1025,8 @@ def display_aggrid_table_edit(dataframe, fit_columns=True):
         }
     """)
 
+    grid_height = 50 + (len(dataframe) * 48) + 10
+
     gb.configure_grid_options(
         onGridSizeChanged=grid_size_handler,
         headerHeight=50,
@@ -1069,11 +1088,8 @@ def display_aggrid_table_edit(dataframe, fit_columns=True):
         update_mode=GridUpdateMode.VALUE_CHANGED,
         allow_unsafe_jscode=True,
         theme='streamlit-custom',
-        key="scenario_simulation_grid",        
+        key="scenario_simulation_grid", 
+        height = grid_height       
     )
 
     return response["data"]
-
-# Run the app
-if __name__ == "__main__":
-    scenario_planner_app()
