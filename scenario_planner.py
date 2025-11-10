@@ -1093,3 +1093,6 @@ def display_aggrid_table_edit(dataframe, fit_columns=True):
     )
 
     return response["data"]
+
+if __name__ == "__main__":
+    scenario_planner_app()
