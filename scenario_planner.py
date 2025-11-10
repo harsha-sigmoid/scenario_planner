@@ -43,10 +43,16 @@ def apply_production_styling():
     """Apply unified production styling across the app with larger table fonts"""
     st.markdown("""
     <style>
-        /* ============ MAIN CONTENT ONLY - NO SIDEBAR CHANGES ============ */
+        /* ============ MAIN CONTENT STYLING ============ */
         .main {
-            background-color: #f5f1e9 !important;
+            background-color: #f5f1e9;
             color: black;
+        }
+        
+        /* Target the main content block specifically */
+        .main .block-container {
+            background-color: #f5f1e9;
+            padding-top: 2rem;
         }
 
         /* Title text (h1, h2...) */
@@ -88,7 +94,7 @@ def apply_production_styling():
         .stSelectbox > div > div,
         .stTextInput > div > div > input,
         .stNumberInput > div > div > input {
-            background-color: #ccd5cdff !important;
+            background-color: #ccd5cd !important;
             color: black !important;
             border: 1px solid #ddd !important;
             border-radius: 4px !important;
@@ -96,13 +102,13 @@ def apply_production_styling():
 
         /* Dropdown menus */
         div[data-baseweb="select"] > div {
-            background-color: #ccd5cdff !important;
+            background-color: #ccd5cd !important;
             color: black !important;
             border: 1px solid #ddd !important;
             border-radius: 4px !important;
         }
         div[data-baseweb="select"] input {
-            background-color: #ccd5cdff !important;
+            background-color: #ccd5cd !important;
             color: black !important;
             border: none !important;
         }
@@ -120,34 +126,34 @@ def apply_production_styling():
         /* ============ LARGER FONT FOR ALL TABLES ============ */
         
         /* Regular DataFrames */
-        .main .stDataFrame {
+        .stDataFrame {
             font-size: 16px !important;
         }
         
-        .main .stDataFrame thead th {
+        .stDataFrame thead th {
             font-size: 17px !important;
             padding: 16px !important;
         }
 
-        .main .stDataFrame tbody td {
+        .stDataFrame tbody td {
             font-size: 16px !important;
             padding: 14px !important;
         }
 
         /* Data Editor - Scenario Simulation */
-        .main .stDataEditor {
+        .stDataEditor {
             font-size: 16px !important;
         }
 
-        .main .stDataEditor div[data-testid="stDataFrameContainer"] {
+        .stDataEditor div[data-testid="stDataFrameContainer"] {
             font-size: 16px !important;
         }
 
-        .main .stDataEditor div[data-testid="stDataFrameContainer"] table {
+        .stDataEditor div[data-testid="stDataFrameContainer"] table {
             font-size: 16px !important;
         }
 
-        .main .stDataEditor div[data-testid="stDataFrameContainer"] th {
+        .stDataEditor div[data-testid="stDataFrameContainer"] th {
             font-size: 17px !important;
             padding: 16px 12px !important;
             background-color: #154c29 !important;
@@ -155,26 +161,26 @@ def apply_production_styling():
             font-weight: bold !important;
         }
 
-        .main .stDataEditor div[data-testid="stDataFrameContainer"] td {
+        .stDataEditor div[data-testid="stDataFrameContainer"] td {
             font-size: 16px !important;
             padding: 14px 12px !important;
         }
 
         /* Input fields within data editor */
-        .main .stDataEditor input {
+        .stDataEditor input {
             font-size: 16px !important;
             padding: 10px 8px !important;
             height: auto !important;
         }
 
         /* Select boxes within data editor */
-        .main .stDataEditor select {
+        .stDataEditor select {
             font-size: 16px !important;
             padding: 8px !important;
         }
 
         /* ============ DATAFRAME STYLING - HIGHLY POLISHED ============ */
-        .main .stDataFrame {
+        .stDataFrame {
             background-color: #f5f1e9 !important;
             border: 2px solid #154c29 !important;
             border-radius: 8px !important;
@@ -182,7 +188,7 @@ def apply_production_styling():
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
         }
 
-        .main .stDataFrame thead th {
+        .stDataFrame thead th {
             background-color: #154c29 !important;
             color: white !important;
             font-weight: bold !important;
@@ -193,55 +199,55 @@ def apply_production_styling():
             letter-spacing: 0.5px !important;
         }
 
-        .main .stDataFrame tbody td {
+        .stDataFrame tbody td {
             background-color: #f5f1e9 !important;
-            color: #042b0bff !important;
+            color: #042b0b !important;
             border: 1px solid #e0d9ce !important;
             padding: 14px !important;
             text-align: center !important;
             font-size: 16px !important;
         }
 
-        .main .stDataFrame tbody tr:nth-child(even) td {
+        .stDataFrame tbody tr:nth-child(even) td {
             background-color: #ede8e2 !important;
         }
 
-        .main .stDataFrame tbody tr:hover td {
+        .stDataFrame tbody tr:hover td {
             background-color: #e8f5e9 !important;
             transition: background-color 0.2s ease !important;
         }
 
         /* ============ ALERT/NOTIFICATION STYLING ============ */
-        .main div[data-testid="stAlert"] > div {
+        div[data-testid="stAlert"] > div {
             border-radius: 8px !important;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
             border-left: 5px solid #154c29 !important;
         }
 
         /* Success (Green) */
-        .main div[data-testid="stAlert"] > div > div:nth-child(1) {
+        div[data-testid="stAlert"] > div > div:nth-child(1) {
             background-color: #d4edda !important;
             color: #155724 !important;
             border: 1px solid #c3e6cb !important;
         }
 
-        .main div[data-testid="stAlert"] > div > div:nth-child(1) svg {
+        div[data-testid="stAlert"] > div > div:nth-child(1) svg {
             color: #155724 !important;
         }
 
         /* Info (Blue-Green) */
-        .main div[data-testid="stAlert"] > div[role="alert"] {
+        div[data-testid="stAlert"] > div[role="alert"] {
             background-color: #d1ecf1 !important;
             color: #0c5460 !important;
             border: 1px solid #bee5eb !important;
         }
 
-        .main div[data-testid="stAlert"] > div[role="alert"] svg {
+        div[data-testid="stAlert"] > div[role="alert"] svg {
             color: #0c5460 !important;
         }
 
         /* Alert text */
-        .main div[data-testid="stAlert"] p {
+        div[data-testid="stAlert"] p {
             margin: 0 !important;
             font-weight: 500 !important;
             font-size: 15px !important;
@@ -299,7 +305,7 @@ def apply_production_styling():
         }
 
         /* ============ DATA EDITOR STYLING ============ */
-        .main div[data-testid="stDataFrameContainer"] input {
+        div[data-testid="stDataFrameContainer"] input {
             background-color: #cce5cc !important;
             border: 2px solid #154c29 !important;
             color: #042b0b !important;
@@ -308,12 +314,12 @@ def apply_production_styling():
         }
 
         /* ============ TABS STYLING ============ */
-        .main .stTabs {
+        .stTabs {
             margin-top: 10px !important;
             margin-bottom: 20px !important;
         }
 
-        .main .stTabs [data-baseweb="tab-list"] {
+        .stTabs [data-baseweb="tab-list"] {
             gap: 0 !important;
             background-color: #f7efe6 !important;
             border-radius: 0 !important;
@@ -321,7 +327,7 @@ def apply_production_styling():
             border-bottom: 2px solid #d1deca !important;
         }
 
-        .main .stTabs [data-baseweb="tab-list"] button {
+        .stTabs [data-baseweb="tab-list"] button {
             color: black !important;
             font-weight: bold !important;
             font-size: 18px !important;
@@ -334,23 +340,23 @@ def apply_production_styling():
             transition: all 0.3s ease !important;
         }
 
-        .main .stTabs [data-baseweb="tab-list"] button:hover {
+        .stTabs [data-baseweb="tab-list"] button:hover {
             background-color: #e0dacb !important;
         }
 
-        .main .stTabs [data-baseweb="tab-list"] button[aria-selected="true"] {
+        .stTabs [data-baseweb="tab-list"] button[aria-selected="true"] {
             color: white !important;
             background-color: #042b0b !important;
             font-weight: bold !important;
             border-bottom: 3px solid #042b0b !important;
         }
 
-        .main .stTabs [data-baseweb="tab-content"] {
+        .stTabs [data-baseweb="tab-content"] {
             padding-top: 20px !important;
         }
 
         /* ============ EXPANDER STYLING ============ */
-        .main .streamlit-expanderHeader {
+        .streamlit-expanderHeader {
             background-color: #e8f5e9 !important;
             color: #154c29 !important;
             font-weight: bold !important;
@@ -359,8 +365,24 @@ def apply_production_styling():
             padding: 12px !important;
         }
 
-        .main .streamlit-expanderHeader:hover {
+        .streamlit-expanderHeader:hover {
             background-color: #d4edda !important;
+        }
+        
+        /* ============ STREAMLIT CLOUD COMPATIBILITY ============ */
+        /* Remove any potential sidebar styling conflicts */
+        section[data-testid="stSidebar"] {
+            background-color: white;
+        }
+        
+        /* Ensure main content area styling */
+        .reportview-container .main .block-container {
+            background-color: #f5f1e9;
+        }
+        
+        /* Fix for Streamlit Cloud container */
+        .css-1d391kg, .css-1y4p8pa {
+            background-color: #f5f1e9;
         }
     </style>
     """, unsafe_allow_html=True)
@@ -413,14 +435,13 @@ def display_aggrid_table(dataframe, fit_columns=True):
             col,
             cellStyle=cell_style,
             headerStyle=header_style,
-            headerClass = "streamlit-custom",
-            minWidth=100,               # Slightly larger min width
+            headerClass="streamlit-custom",
+            minWidth=100,
             suppressSizeToFit=False,
-            wrapHeaderText = True
+            wrapHeaderText=True
         )
 
     # --- JS Auto-resize Fix ---
-    # When the grid is loaded or resized, this ensures columns fit exactly
     grid_size_handler = JsCode("""
         function(params) {
             params.api.sizeColumnsToFit();
@@ -428,11 +449,11 @@ def display_aggrid_table(dataframe, fit_columns=True):
     """)
 
     gb.configure_grid_options(
-        onGridSizeChanged=grid_size_handler,   # 👈 Key line
+        onGridSizeChanged=grid_size_handler,
         headerHeight=50,
         rowHeight=48,
         domLayout='autoHeight',
-        suppressHorizontalScroll=False,        # Allow natural scroll when needed
+        suppressHorizontalScroll=False,
         suppressMovableColumns=True,
         suppressColumnVirtualisation=True,
         suppressSizeToFit=False
@@ -467,7 +488,6 @@ def display_aggrid_table(dataframe, fit_columns=True):
         color: white !important;
         font-weight: 700 !important;
         font-size: 16px !important;
-        textAlign
         justify-content: center !important;
     }
 
@@ -485,15 +505,23 @@ def display_aggrid_table(dataframe, fit_columns=True):
     response = AgGrid(
         dataframe,
         gridOptions=gridOptions,
-        fit_columns_on_grid_load=True,  # 👈 Critical: ensures perfect fit at load
+        fit_columns_on_grid_load=True,
         update_mode=GridUpdateMode.NO_UPDATE,
         allow_unsafe_jscode=True,
-        theme='streamlit-custom',
+        theme='streamlit',
+        custom_css={
+            ".ag-theme-streamlit": """
+                border: 2px solid #154c29 !important;
+                border-radius: 12px !important;
+                background-color: #f5f1e9 !important;
+                overflow: hidden !important;
+                box-shadow: 0 4px 10px rgba(21,76,41,0.15) !important;
+            """
+        },
         height=400,
     )
 
     return response['data']
-
 
 def get_period_options(horizon):
     """Return period options based on selected horizon."""
@@ -507,6 +535,7 @@ def get_period_options(horizon):
 def scenario_planner_app():
     """Budget Scenario Planner application with production styling and tabs"""
     
+    # Apply styling first
     apply_production_styling()
 
     # Initialize session state for scenarios
@@ -528,7 +557,7 @@ def scenario_planner_app():
     # =========================
     # Configuration Section
     # =========================
-    col1, col2, col3, col4, col5=  st.columns([1,1,1,1.15,1])
+    col1, col2, col3, col4, col5 = st.columns([1,1,1,1.15,1])
 
     with col1:
         st.markdown("<h3 class='unified-filter-title'>Year</h3>", unsafe_allow_html=True)
@@ -540,7 +569,6 @@ def scenario_planner_app():
     
     with col3:
         st.markdown("<h3 class='unified-filter-title'>Period</h3>", unsafe_allow_html=True)
-        # Get period options based on selected horizon
         period_options = get_period_options(horizon)
         period = st.selectbox("Period", period_options, label_visibility="collapsed")
     
@@ -757,18 +785,18 @@ def scenario_planner_app():
         # Add custom CSS to remove padding after the table
         st.markdown("""
         <style>
-        div[data-testid="stVerticalBlock"] > div:has(> .ag-theme-streamlit-custom) {
+        div[data-testid="stVerticalBlock"] > div:has(> .ag-theme-streamlit) {
             padding-bottom: 0px !important;
             margin-bottom: 0px !important;
         }
         
         /* Remove padding from the AgGrid container specifically */
-        .ag-theme-streamlit-custom {
+        .ag-theme-streamlit {
             margin-bottom: 0px !important;
         }
         
         /* Remove any extra space after the grid */
-        div[data-testid="stVerticalBlock"]:has(> .ag-theme-streamlit-custom) {
+        div[data-testid="stVerticalBlock"]:has(> .ag-theme-streamlit) {
             padding-bottom: 0px !important;
             margin-bottom: 0px !important;
         }
@@ -796,7 +824,6 @@ def scenario_planner_app():
         col1, col2 = st.columns([1, 1])
         with col1:
             if st.button("Update ROI", use_container_width=True):
-                # Calculate ROI logic here
                 total_desired_budget = edited_df["Desired Budget"].sum()
                 st.success(f"✅ ROI Updated! Total Budget: **${total_desired_budget:,.0f}**")
         
@@ -832,7 +859,7 @@ def scenario_planner_app():
         selected_scenarios = st.multiselect(
             "Choose scenarios to compare:",
             options=available_scenarios,
-            default=available_scenarios[:min(2, len(available_scenarios))]  # Default to first 2 scenarios
+            default=available_scenarios[:min(2, len(available_scenarios))]
         )
         
         if not selected_scenarios:
@@ -1027,7 +1054,7 @@ def display_aggrid_table_edit(dataframe, fit_columns=True):
     .ag-header-cell-label {
         justify-content: center;
     }
-    .ag-theme-streamlit-custom {
+    .ag-theme-streamlit {
         border: 2px solid #154c29 !important;
         border-radius: 12px !important;
         background-color: #f5f1e9 !important;
@@ -1035,27 +1062,27 @@ def display_aggrid_table_edit(dataframe, fit_columns=True):
         box-shadow: 0 4px 10px rgba(21,76,41,0.15) !important;
     }
 
-    .ag-theme-streamlit-custom .ag-root-wrapper {
+    .ag-theme-streamlit .ag-root-wrapper {
         border-radius: 12px !important;
         overflow: hidden !important;
     }
 
-    .ag-theme-streamlit-custom .ag-header {
+    .ag-theme-streamlit .ag-header {
         background-color: #154c29 !important;
     }
 
-    .ag-theme-streamlit-custom .ag-header-cell-label {
+    .ag-theme-streamlit .ag-header-cell-label {
         color: white !important;
         font-weight: 700 !important;
         font-size: 16px !important;
         justify-content: center !important;
     }
 
-    .ag-theme-streamlit-custom .ag-row-hover {
+    .ag-theme-streamlit .ag-row-hover {
         background-color: #e8f5e9 !important;
     }
 
-    .ag-theme-streamlit-custom .ag-cell {
+    .ag-theme-streamlit .ag-cell {
         border-right: 1px solid #c9dbc9 !important;
     }
     </style>
@@ -1068,7 +1095,7 @@ def display_aggrid_table_edit(dataframe, fit_columns=True):
         fit_columns_on_grid_load=True,
         update_mode=GridUpdateMode.VALUE_CHANGED,
         allow_unsafe_jscode=True,
-        theme='streamlit-custom',
+        theme='streamlit',
         key="scenario_simulation_grid",        
     )
 
