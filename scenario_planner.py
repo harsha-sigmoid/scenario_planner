@@ -830,13 +830,13 @@ def scenario_planner_app():
         # Button for ROI calculation and scenario saving
         col1, col2 = st.columns([1, 1])
         with col1:
-            if st.button("Update ROI", use_container_width=True):
+            if st.button("Update ROI", width='stretch'):
                 total_desired_budget = edited_df["Desired Budget"].sum()
                 st.success(f"✅ ROI Updated! Total Budget: **${total_desired_budget:,.0f}**")
                 print(edited_df)
         
         with col2:
-            if st.button("Save Scenario", use_container_width=True):
+            if st.button("Save Scenario", width='stretch'):
                 st.session_state.scenario_counter += 1
                 scenario_name = f"scenario-{st.session_state.scenario_counter}"
                 st.session_state.saved_scenarios[scenario_name] = edited_df.copy()
@@ -848,7 +848,7 @@ def scenario_planner_app():
             st.markdown("#### 💾 Saved Scenarios")
             for scenario_name, scenario_data in st.session_state.saved_scenarios.items():
                 with st.expander(f"📁 {scenario_name} - Total Budget: ${scenario_data['Desired Budget'].sum():,}"):
-                    st.dataframe(scenario_data, use_container_width=True)
+                    st.dataframe(scenario_data, width='stretch')
                 
     # =========================
     # TAB 4: SCENARIO COMPARISON
@@ -1176,7 +1176,7 @@ def display_aggrid_table_edit(dataframe, channel_cpm_mapping=None, fit_columns=T
         dataframe,
         gridOptions=gridOptions,
         fit_columns_on_grid_load=True,
-        update_mode=GridUpdateMode.VALUE_CHANGED,
+        update_on=["selection_changed", "cell_value_changed"],
         allow_unsafe_jscode=True,
         theme='streamlit-custom',
         key="scenario_simulation_grid",
