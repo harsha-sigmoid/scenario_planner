@@ -518,7 +518,7 @@ def scenario_planner_app():
         st.session_state.scenario_counter = 0
     
     if "saved_scenarios" not in st.session_state:
-        st.session_state.saved_scenarios = {}
+        st.session_state.saved_scenarios = {"original": load_backend_data()["simulation"].copy()}
 
     # Header with user info
     col1, col2 = st.columns([3, 1])
@@ -753,15 +753,7 @@ def scenario_planner_app():
             </div>
             """, unsafe_allow_html=True)
         st.markdown("---")
-        st.markdown("#### 📝 Interactive Budget Editor")
-        st.markdown("""
-            <div style="background-color: #d1ecf1; border: 2px solid #0c5460; border-radius: 8px; padding: 15px; border-left: 5px solid #0c5460; margin-bottom: 20px;">
-                <div style="color: #0c5460; font-size: 15px; font-weight: 600;">
-                    You may directly edit the Desired Budget and CPM columns by double-clicking on the cell! Changes are saved automatically in memory until logout.
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
-
+        
         # Add custom CSS to remove padding after the table
         st.markdown("""
         <style>
@@ -770,21 +762,67 @@ def scenario_planner_app():
             margin-bottom: 0px !important;
         }
         
-        /* Remove padding from the AgGrid container specifically */
         .ag-theme-streamlit-custom {
             margin-bottom: 0px !important;
         }
         
-        /* Remove any extra space after the grid */
         div[data-testid="stVerticalBlock"]:has(> .ag-theme-streamlit-custom) {
             padding-bottom: 0px !important;
             margin-bottom: 0px !important;
         }
         </style>
         """, unsafe_allow_html=True)
-        # --- Editable AgGrid table ---
+
+        st.markdown("#### 📝 Interactive Budget Editor")
+        
+        st.markdown("""
+            <div style="background-color: #d1ecf1; border: 2px solid #0c5460; border-radius: 8px; padding: 15px; border-left: 5px solid #0c5460; margin-bottom: 20px;">
+                <div style="color: #0c5460; font-size: 15px; font-weight: 600;">
+                    You may directly edit the Desired Budget and CPM columns by double-clicking on the cell! 
+                    <strong>Different channels have different CPM range options.</strong>
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+
+        # Define channel-specific CPM dropdown options
+        channel_cpm_mapping = {
+            "Display": [
+                "$6.3 - $6.8", 
+                "$6.5 - $7.0", 
+                "$6.0 - $6.5",
+                "$6.8 - $7.3"
+            ],
+            "FEP": [
+                "$8.1 - $8.9", 
+                "$8.0 - $8.7", 
+                "$8.5 - $9.0",
+                "$7.8 - $8.5"
+            ],
+            "Search": [
+                "$5.0 - $5.5", 
+                "$5.2 - $5.8", 
+                "$4.8 - $5.3",
+                "$5.5 - $6.0"
+            ],
+            "Social Media": [
+                "$9.3 - $10.0", 
+                "$9.1 - $9.8", 
+                "$9.5 - $10.2",
+                "$8.8 - $9.5"
+            ],
+            "Video": [
+                "$6.3 - $6.8", 
+                "$6.5 - $7.0", 
+                "$6.0 - $6.5",
+                "$7.0 - $7.5"
+            ]
+        }
+
+        # --- Editable AgGrid table with channel-specific dropdowns ---
         edited_df = display_aggrid_table_edit(
-            st.session_state["edited_simulation"].reset_index(drop=True))
+            st.session_state["edited_simulation"].reset_index(drop=True),
+            channel_cpm_mapping=channel_cpm_mapping
+        )
         
         # Update session state with edited data
         st.session_state["edited_simulation"] = edited_df.copy()
@@ -793,14 +831,14 @@ def scenario_planner_app():
         col1, col2 = st.columns([1, 1])
         with col1:
             if st.button("Update ROI", use_container_width=True):
-                # Calculate ROI logic here
                 total_desired_budget = edited_df["Desired Budget"].sum()
                 st.success(f"✅ ROI Updated! Total Budget: **${total_desired_budget:,.0f}**")
+                print(edited_df)
         
         with col2:
             if st.button("Save Scenario", use_container_width=True):
                 st.session_state.scenario_counter += 1
-                scenario_name = f"comp_df{st.session_state.scenario_counter}"
+                scenario_name = f"scenario-{st.session_state.scenario_counter}"
                 st.session_state.saved_scenarios[scenario_name] = edited_df.copy()
                 st.success(f"✅ Scenario saved as **{scenario_name}**!")
         
@@ -811,7 +849,7 @@ def scenario_planner_app():
             for scenario_name, scenario_data in st.session_state.saved_scenarios.items():
                 with st.expander(f"📁 {scenario_name} - Total Budget: ${scenario_data['Desired Budget'].sum():,}"):
                     st.dataframe(scenario_data, use_container_width=True)
-            
+                
     # =========================
     # TAB 4: SCENARIO COMPARISON
     # =========================
@@ -958,14 +996,27 @@ def scenario_planner_app():
         #             🎯 Optimize channel mix for efficiency
         #             """)
 
-def display_aggrid_table_edit(dataframe, fit_columns=True):
+def display_aggrid_table_edit(dataframe, channel_cpm_mapping=None, fit_columns=True):
     """
-    Streamlit AgGrid table styled with theme-matched green headers, beige rows,
-    centered text, rounded corners, and Streamlit aesthetic consistency.
-    Allows selective column editability (Desired Budget, Expected CPM Range).
+    Streamlit AgGrid table with dynamic dropdowns for CPM ranges based on channel.
+    
+    Args:
+        dataframe: The DataFrame to display
+        channel_cpm_mapping: Dictionary with channel names as keys and lists of CPM options as values
+        fit_columns: Whether to fit columns to grid width
     """
     gb = GridOptionsBuilder.from_dataframe(dataframe)
     
+    # Default channel-CPM mapping if none provided
+    if channel_cpm_mapping is None:
+        channel_cpm_mapping = {
+            "Display": ["$6.3 - $6.8", "$6.5 - $7.0", "$6.0 - $6.5"],
+            "FEP": ["$8.1 - $8.9", "$8.0 - $8.7", "$8.5 - $9.0"],
+            "Search": ["$5.0 - $5.5", "$5.2 - $5.8", "$4.8 - $5.3"],
+            "Social Media": ["$9.3 - $10.0", "$9.1 - $9.8", "$9.5 - $10.2"],
+            "Video": ["$6.3 - $6.8", "$6.5 - $7.0", "$6.0 - $6.5"]
+        }
+
     # --- Cell style ---
     cell_style = JsCode("""
     function(params) {
@@ -1000,23 +1051,65 @@ def display_aggrid_table_edit(dataframe, fit_columns=True):
     }
     """)
 
-    # --- Editable column rules ---
-    editable_columns = ["Desired Budget", "Exp. CPM Range"]
+    # --- Dynamic dropdown handler ---
+    cpm_dropdown_handler = JsCode(f"""
+    function(params) {{
+        // Map channel to CPM options
+        const channelCPMMapping = {channel_cpm_mapping};
+        
+        // Get the current row's channel
+        const currentChannel = params.data.Channel;
+        
+        // Get CPM options for this channel, or empty array if not found
+        const cpmOptions = channelCPMMapping[currentChannel] || [];
+        
+        return {{
+            values: cpmOptions
+        }};
+    }}
+    """)
 
     # --- Configure columns ---
     for col in dataframe.columns:
-        gb.configure_column(
-            col,
-            editable=(col in editable_columns),
-            cellEditor='agSelectCellEditor' if col == "Exp. CPM Range" else None,
-            cellEditorParams={'values': ["$6.3 - $6.8", "$8.1 - $8.9", "$5.0 - $5.5", "$9.3 - $10.0", "$6.3 - $6.8"]} if col == "Exp. CPM Range" else None,
-            cellStyle=cell_style,
-            headerStyle=header_style,
-            headerClass="streamlit-custom",
-            minWidth=120,
-            suppressSizeToFit=False,
-            wrapHeaderText=True
-        )
+        if col == "Exp. CPM Range":
+            # Dynamic dropdown based on channel
+            gb.configure_column(
+                col,
+                editable=True,
+                cellEditor='agSelectCellEditor',
+                cellEditorParams=cpm_dropdown_handler,
+                cellStyle=cell_style,
+                headerStyle=header_style,
+                headerClass="streamlit-custom",
+                minWidth=150,
+                suppressSizeToFit=False,
+                wrapHeaderText=True
+            )
+        elif col == "Desired Budget":
+            # Editable numeric column
+            gb.configure_column(
+                col,
+                editable=True,
+                cellStyle=cell_style,
+                headerStyle=header_style,
+                headerClass="streamlit-custom",
+                minWidth=140,
+                suppressSizeToFit=False,
+                wrapHeaderText=True,
+                type=['numericColumn']
+            )
+        else:
+            # Non-editable columns
+            gb.configure_column(
+                col,
+                editable=False,
+                cellStyle=cell_style,
+                headerStyle=header_style,
+                headerClass="streamlit-custom",
+                minWidth=120,
+                suppressSizeToFit=False,
+                wrapHeaderText=True
+            )
 
     # --- JS Auto-resize Fix ---
     grid_size_handler = JsCode("""
@@ -1024,8 +1117,6 @@ def display_aggrid_table_edit(dataframe, fit_columns=True):
             params.api.sizeColumnsToFit();
         }
     """)
-
-    grid_height = 50 + (len(dataframe) * 48) + 10
 
     gb.configure_grid_options(
         onGridSizeChanged=grid_size_handler,
@@ -1088,8 +1179,7 @@ def display_aggrid_table_edit(dataframe, fit_columns=True):
         update_mode=GridUpdateMode.VALUE_CHANGED,
         allow_unsafe_jscode=True,
         theme='streamlit-custom',
-        key="scenario_simulation_grid", 
-        height = grid_height       
+        key="scenario_simulation_grid",
     )
 
     return response["data"]
