@@ -489,7 +489,7 @@ def display_aggrid_table(dataframe, fit_columns=True):
         update_mode=GridUpdateMode.NO_UPDATE,
         allow_unsafe_jscode=True,
         theme='streamlit-custom',
-        height=400,
+        height = 50 + (len(dataframe) * 48) + 10,
     )
 
     return response['data']
@@ -1180,6 +1180,7 @@ def display_aggrid_table_edit(dataframe, channel_cpm_mapping=None, fit_columns=T
         allow_unsafe_jscode=True,
         theme='streamlit-custom',
         key="scenario_simulation_grid",
+        height = 50 + (len(dataframe) * 48) + 10
     )
 
     return response["data"]
