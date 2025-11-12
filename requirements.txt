@@ -1,6 +1,6 @@
-streamlit == 1.49.1
-streamlit-aggrid == 1.2.0
-streamlit-option-menu == 0.3.13
+streamlit
+streamlit-aggrid
+streamlit-option-menu
 pandas == 2.3.2
 openpyxl == 3.1.5
 Pillow
